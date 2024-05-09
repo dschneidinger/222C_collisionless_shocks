@@ -48,7 +48,7 @@ restart
 space
 {
   xmin(1:1) =   0,
-  xmax(1:1) =   40,
+  xmax(1:1) =   100,
 
   if_move(1:2)= .false., .false.,
 }
@@ -114,7 +114,7 @@ cathode
  wall = 2, ! wall to inject particles from
  
  ! time profile information
- t_start = -195,
+ t_start = -495,
  t_rise = 45, 
  t_flat = 1.0d9, 
  t_fall = 3.0,
