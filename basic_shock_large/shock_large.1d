@@ -1,7 +1,7 @@
 !----------global simulation parameters---------
 simulation
 {
-  !n0=1.0e24,
+  ! n0=1.0e24,
 }
 
 !--------the node configuration for this simulation--------
@@ -28,8 +28,8 @@ grid
 
 time_step
 {
-  dt     =  0.096,
-  ndump  =  20,
+  dt     =  0.076,
+  ndump  =  10,
 }
 
 !----------restart information----------
@@ -48,7 +48,7 @@ restart
 space
 {
   xmin(1:1) =   0,
-  xmax(1:1) =   100,
+  xmax(1:1) =   80,
 
   if_move(1:2)= .false., .false.,
 }
@@ -72,7 +72,7 @@ el_mag_fld
   type_ext_b(1:3) = "math func", "math func", "math func",
   ext_b_mfunc(1) = "0.00",
   ext_b_mfunc(2) = "0.0",
-  !ext_b_mfunc(3) = "0.04 + 50*(1.-tanh((x1-1)/0.1))/2",
+  ! ext_b_mfunc(3) = "0.04 + 50*(1.-tanh((x1-1)/0.1))/2",
   ext_b_mfunc(3) = "0.04",
   
   type_ext_e(1:3) = "math func", "math func", "math func",
@@ -131,9 +131,9 @@ species
   rqm=-1.0,
   num_par_x(1:1) = 1000,
   free_stream = .false.,
-  !q_real = -1.0,
-  !if_collide = .true.,
-  !if_like_collide = .true.,
+  ! q_real = -1.0,
+  ! if_collide = .true.,
+  ! if_like_collide = .true.,
 }
 
 
@@ -168,11 +168,11 @@ diag_species
  ndump_fac_raw = 0,
 
  ps_xmin(1:1) =  0,
- ps_xmax(1:1) =  100,
- ps_nx(1:1)   =  1024,
+ ps_xmax(1:1) =  80,
+ ps_nx(1:1)   =  512,
  ps_pmin(1:3) = -1, -1, -1,
  ps_pmax(1:3) = 1,  1,  1,
- ps_np(1:3)   = 256,  1024,  1024,
+ ps_np(1:3)   = 512,  1024,  1024,
  if_ps_p_auto(1:3) = .false., .false., .false., 
 
  ps_gammamin = 1.0, 
@@ -194,7 +194,7 @@ cathode
  wall = 2, ! wall to inject particles from
  
  ! time profile information
- t_start = -240,
+ t_start = -495,
  t_rise = 45, 
  t_flat = 1.0d9, 
  t_fall = 3.0,
@@ -211,9 +211,9 @@ species
   rqm=1.0,
   num_par_x(1:1) = 1000,
   free_stream = .false.,
-  !q_real = 1.0,
-  !if_collide = .true.,
-  !if_like_collide = .true.,
+  ! q_real = 1.0,
+  ! if_collide = .true.,
+  ! if_like_collide = .true.,
 }
 
 
@@ -243,15 +243,15 @@ diag_species
  reports = "charge", "q1",
  rep_udist = "ufl1",
  ndump_fac_ene = 1,
- ndump_fac_pha = 50, 
+ ndump_fac_pha = 1, 
  ndump_fac_raw = 0,
 
  ps_xmin(1:1) =  0,
- ps_xmax(1:1) =  100,
- ps_nx(1:1)   =  1024,
+ ps_xmax(1:1) =  80,
+ ps_nx(1:1)   =  512,
  ps_pmin(1:3) = -1, -1, -1,
  ps_pmax(1:3) = 1,  1,  1,
- ps_np(1:3)   = 256,  256,  256,
+ ps_np(1:3)   = 512,  256,  256,
  if_ps_p_auto(1:3) = .false., .false., .false., 
 
  ps_gammamin = 1.0, 
