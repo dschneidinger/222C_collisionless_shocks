@@ -46,8 +46,8 @@ def illustrate_box(q: list, xmin, xmax, tmin, tmax, v, q_0 = None) -> None:
 
     # If vysxd.get_data timeshot is supplied, use this to label axes
     if (q_0 != None):
-        plt.ylabel(f"{q_0.AXIS1_NAME}' [${q_0.AXIS1_UNITS}$]")
-        plt.xlabel(f"Time [${q_0.TIME_UNITS}'$]")
+        plt.ylabel(f"{q_0.AXIS1_NAME} [${q_0.AXIS1_UNITS}$]")
+        plt.xlabel(f"Time [${q_0.TIME_UNITS}$]")
         plt.colorbar(label=q_0.DATA_NAME)
 
     # Draw a parallelogram to illustrate entire region that is being integrated
@@ -73,10 +73,10 @@ def field_transform(v: float, e_: np.array, b_: np.array):
 
     e1 = e_[0]
     b1 = b_[0]
+    # I flipped the signs...
+    e2 = gamma*(e_[1] - v*b_[2])
+    b2 = gamma*(b_[1] + v*e_[2])
 
-    e2 = gamma*(e_[1] + v*b_[2])
-    b2 = gamma*(b_[1] - v*e_[2])
-
-    e3 = gamma*(e_[2] - v*b_[1])
-    b3 = gamma*(b_[2] + v*e_[1])
+    e3 = gamma*(e_[2] + v*b_[1])
+    b3 = gamma*(b_[2] - v*e_[1])
     return [e1,e2,e3], [b1,b2,b3]

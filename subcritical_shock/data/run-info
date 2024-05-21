@@ -17,7 +17,7 @@ build_info = {
    }
 }
 run_info = {
-  "input_deck_crc":         2122124520.,
+  "input_deck_crc":         1333400145.,
   "input_deck": """
 !----------global simulation parameters---------
 simulation
@@ -80,7 +80,7 @@ space
 
 time
 {
-  tmin = 0.0d0, tmax  = 100.0,
+  tmin = 0.0d0, tmax  = 400.0,
 }
 
 
@@ -135,7 +135,7 @@ cathode
  wall = 2, ! wall to inject particles from
  
  ! time profile information
- t_start = -495,
+ t_start = -790,
  t_rise = 45, 
  t_flat = 1.0d9, 
  t_fall = 3.0,
@@ -215,7 +215,7 @@ cathode
  wall = 2, ! wall to inject particles from
  
  ! time profile information
- t_start = -495,
+ t_start = -795,
  t_rise = 45, 
  t_flat = 1.0d9, 
  t_fall = 3.0,

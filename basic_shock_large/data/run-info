@@ -17,7 +17,7 @@ build_info = {
    }
 }
 run_info = {
-  "input_deck_crc":         3514111271.,
+  "input_deck_crc":         2820493047.,
   "input_deck": """
 !----------global simulation parameters---------
 simulation
@@ -183,7 +183,7 @@ diag_species
 {
  ndump_fac = 1, 
  reports = "charge", "q1",
- rep_udist = "ufl1",
+ rep_udist = "ufl1", "ufl2", "ufl3", ! added ufl2 and ufl3 to this line, look here for errors
  ndump_fac_ene = 1,
  ndump_fac_pha = 1, 
  ndump_fac_raw = 0,
@@ -262,7 +262,7 @@ diag_species
 {
  ndump_fac = 1, 
  reports = "charge", "q1",
- rep_udist = "ufl1",
+ rep_udist = "ufl1", "ufl2", "ufl3", ! added ufl2 and ufl3 to this line, look here for errors
  ndump_fac_ene = 1,
  ndump_fac_pha = 1, 
  ndump_fac_raw = 0,
