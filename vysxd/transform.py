@@ -80,3 +80,11 @@ def field_transform(v: float, e_: np.array, b_: np.array):
     e3 = gamma*(e_[2] + v*b_[1])
     b3 = gamma*(b_[2] - v*e_[1])
     return [e1,e2,e3], [b1,b2,b3]
+
+def plot_quantity(q: np.array, xmin, xmax, v, x, dx, q_0):
+    xmin_index = int(xmin//dx)
+    xmax_index = int(xmax/dx)
+    plt.plot(x[xmin_index:xmax_index], q)
+    plt.xlabel(f'{q_0.AXIS1_NAME} [${q_0.AXIS1_UNITS}$]')
+    plt.ylabel(f'integrated {q_0.DATA_NAME}')
+    plt.title(f'integrated along lines of $v_s = {v}$')
