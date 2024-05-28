@@ -14,6 +14,18 @@ def line_integrate(q_f: list, t0: float, t1: float, x0: float, v: float):
     return soln[0], soln[1]
 
 def box_integrate(q: list, xmin, xmax, tmin, tmax, v, plot_flag = True, q_0 = None) -> np.array:
+    '''
+    Function that takes time averages over lines in the frame stationary to the shock
+
+    Keyword arguments:
+    q: Quantity that will be averaged. The form of which comes from get_osiris_quantity_1d, ie. [Q,dt,dx,t,x]
+    xmin: lower bound of x integration on left side of parallelogram
+    xmax: upper bound of x integration on left side of parallelogram
+    tmin, tmax: bounds of time integration
+    v: speed of shock
+    plot_flag: flag for whether function should automatically plot results
+    q_0: example timeshot of type vysxd.object, used to label axes
+    '''
     t_axis = q[3]
     x_axis = q[4]
 
@@ -88,3 +100,24 @@ def plot_quantity(q: np.array, xmin, xmax, v, x, dx, q_0):
     plt.xlabel(f'{q_0.AXIS1_NAME} [${q_0.AXIS1_UNITS}$]')
     plt.ylabel(f'integrated {q_0.DATA_NAME}')
     plt.title(f'integrated along lines of $v_s = {v}$')
+
+def get_temperature(p1x1,e_ufl1):
+    '''
+    Get pressure from phase space data, right now this only works if integrating over x
+    '''
+    t_phase = p1x1[4]
+    x_phase = p1x1[5]
+    v_phase = p1x1[6] 
+
+    fvsquared = lambda: np.square(np.swapaxes(np.array([[v_phase]*len(x_phase)]*len(t_phase)),-1,1))
+    fv = lambda: np.swapaxes(np.array([[v_phase]*len(x_phase)]*len(t_phase)),-1,1)
+
+    second_moment = np.trapz(np.multiply(fvsquared(),p1x1[0]),axis=1)
+    first_moment = np.trapz(np.multiply(fv(),p1x1[0]),axis=1)
+    zeroth_moment = np.trapz(p1x1[0],axis=1)
+    # sorry for the spaghetti code, if I do it any other way I will run out of memory
+    # basically all of this swapaxes shit is just for the purposes of creating a v matrix that is uniform in x and t, and the same size
+    # as p1x1
+
+    temperature = second_moment-2*np.multiply(e_ufl1[0],first_moment)+np.multiply(np.square(e_ufl1[0]),zeroth_moment)
+    return temperature
