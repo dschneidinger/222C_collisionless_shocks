@@ -136,20 +136,25 @@ def plot_quantity(q: np.array, xmin, xmax, v, x, dx, q_0, shock_front_index = No
     q -- Shock-stationary-averaged quantity, can directly take the output of box_integrate
     '''
 
-    xmin_index = int(xmin//dx)
+    xmin_index = int(xmin/dx)
     xmax_index = int(xmax/dx)
 
-    plt.plot(x[xmin_index:xmax_index], q)
+    plt.plot(x[xmin_index:xmax_index], q,label = q_0.DATA_NAME)
+
+    # This is scuffed, don't use
     if (q_error == None):
         pass
     else:
         plt.errorbar(x=x[xmin_index:xmax_index],y=q, yerr=q_error, xerr=None, linestyle = 'None',elinewidth=2,capsize=3)
+
         
     if isinstance(shock_front_index,int):
-        plt.hlines(np.mean(q[0:shock_front_index]),xmin=xmin,xmax=xmax,label = f"{q_0.DATA_NAME} downstream", linestyles="--", color = "black")
-        print(f"Downstream average is: {np.mean(q[0:shock_front_index])}")
-        print(f"Upstream average is: {np.mean(q[-15:-1])}") # This might be scuffed
+        plt.hlines(np.mean(q[0:shock_front_index]),xmin=xmin,xmax=shock_front_index*dx, linestyles="--", color = "black")
+        plt.errorbar((xmin+shock_front_index*dx)/2,np.mean(q[0:shock_front_index]), yerr=np.std(q[0:shock_front_index]), xerr=None, linestyle = 'None',elinewidth=3,capsize=4, color = 'black')
+        print(f"Downstream average is: {round(np.mean(q[0:shock_front_index]),3)} +/- {round(np.std(q[0:shock_front_index]),3)}")
+        print(f"Upstream average is: {round(np.mean(q[-15:-1]),3)}") # This might be scuffed
         plt.legend()
+
     plt.xlabel(f'{q_0.AXIS1_NAME} [${q_0.AXIS1_UNITS}$]')
     plt.ylabel(f'integrated {q_0.DATA_NAME}')
     plt.title(f'integrated along lines of $v_s = {v}$')
