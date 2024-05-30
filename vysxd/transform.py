@@ -185,3 +185,13 @@ def get_temperature(p1x1,ufl1):
     temperature = second_moment-2*np.multiply(ufl1[0],first_moment)+np.multiply(np.square(ufl1[0]),zeroth_moment)
     # temperature = np.multiply(temperature)
     return temperature
+
+def first_moment(p1x1):
+    t_phase = p1x1[4]
+    x_phase = p1x1[5]
+    v_phase = p1x1[6] 
+
+    fv = lambda: np.swapaxes(np.array([[v_phase]*len(x_phase)]*len(t_phase)),-1,1)
+    first_moment = np.trapz(np.multiply(fv(),p1x1[0]),axis=1)
+
+    return first_moment
