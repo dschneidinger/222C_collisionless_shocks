@@ -161,30 +161,26 @@ def plot_quantity(q: np.array, xmin, xmax, v, x, dx, q_0, shock_front_index = No
 
 def get_temperature(p1x1,ufl1):
     '''
-    Get pressure from phase space data, right now this only works if integrating over x. Output is NOT NORMALIZED!
-
-
+    Get pressure from phase space data, right now this only works if integrating over x1. Output is NOT NORMALIZED!!!
     '''
-    t_phase = p1x1[4]
-    x_phase = p1x1[5]
-    v_phase = p1x1[6] 
+    t_phase = np.array(p1x1[4])
+    x_phase = np.array(p1x1[5])
+    v_phase = np.array(p1x1[6]) 
 
-    # Use lambda functions to conserve memory
-    fvsquared = lambda: np.square(np.swapaxes(np.array([[v_phase]*len(x_phase)]*len(t_phase)),-1,1))
-    fv = lambda: np.swapaxes(np.array([[v_phase]*len(x_phase)]*len(t_phase)),-1,1)
+    temperature = np.zeros(len(x_phase))
 
-    second_moment = np.trapz(np.multiply(fvsquared(),p1x1[0]),axis=1)
-    first_moment = np.trapz(np.multiply(fv(),p1x1[0]),axis=1)
-    zeroth_moment = np.trapz(p1x1[0],axis=1)
-    '''
-    sorry for the spaghetti code
-    basically all of this swapaxes shit is just for the purposes of creating a v matrix that is uniform in x and t,
-    and the same size as p1x1
-    '''
+    for i in range(len(t_phase)):
+        fvsquared = p1x1[0][i,:,:]*np.transpose([v_phase**2]*len(x_phase))
+        fv = p1x1[0][i,:,:]*np.transpose([v_phase]*len(x_phase))
 
-    temperature = second_moment-2*np.multiply(ufl1[0],first_moment)+np.multiply(np.square(ufl1[0]),zeroth_moment)
-    # temperature = np.multiply(temperature)
-    return temperature
+        second_moment = np.trapz(fvsquared,axis=0)
+        first_moment = np.trapz(fv,axis=0)
+        zeroth_moment = np.trapz(p1x1[0][i,:,:],axis=0)
+
+        temperature = np.vstack((temperature,second_moment-2*ufl1[0][i]*first_moment+np.square(ufl1[0][i])*zeroth_moment))
+    
+    # Don't need that first slice because it is just zeros
+    return temperature[1:,:]
 
 def first_moment(p1x1):
     t_phase = p1x1[4]

@@ -29,7 +29,7 @@ grid
 time_step
 {
   dt     =  0.115,
-  ndump  =  10,
+  ndump  =  64,
 }
 
 !----------restart information----------
@@ -59,7 +59,7 @@ space
 
 time
 {
-  tmin = 0.0d0, tmax  = 400.0,
+  tmin = 0.0d0, tmax  = 1500.0,
 }
 
 
